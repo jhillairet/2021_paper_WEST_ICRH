@@ -97,7 +97,7 @@ ax[2].legend(fontsize=12)
 
 # ax[3].plot(t_VSWR_Q1_l, VSWR_Q1, lw=2, label=r'$\overline{VSWR}$ Q1', color='C0')
 ax[3].plot(t_VSWR_Q4_l, VSWR_Q4, lw=2, label=r'$\overline{SWR}$ Q4', color='C2')
-ax[3].set_ylim(1, 2)
+ax[3].set_ylim(1, 3)
 ax[3].set_ylabel('', fontsize=12)
 ax[3].legend(fontsize=10)
 
@@ -117,4 +117,3 @@ for idx, _ts in enumerate(ts):
 
 #%%
 fig.savefig(f'WEST_IC_{pulse}_summary_pellet.png', dpi=150)
-

@@ -87,7 +87,7 @@ ax.plot(Rcs, Rcs/Z_load.real, ls='--', color='gray')
 ax.text(1.3, 2.1, 'Non Resilient', color='gray', rotation=45)
 
 ax.axhline(2, ls='--', color='darkred')
-ax.text(0.8, 2.02, 'SWR Limit', color='darkred')
+ax.text(0.8, 2.02, 'SWR Limit for 3MW per antenna', color='darkred')
 
 ax.set_ylim(1, 2.5)
 ax.set_xlim(0.35, 2.01)
