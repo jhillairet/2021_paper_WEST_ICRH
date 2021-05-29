@@ -7,18 +7,21 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
-        
+        with:
+          fetch-depth: 2
+
       - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v2
+        uses: dante-ev/latex-action@master
         with:
           root_file: master.tex
-          
-      - uses: tawalaya/latex-diff-action@v1
+                   
+      - name: latex-diff
+        uses: tawalaya/latex-diff-action@v1
         with:
           root_file: master.tex
           compile_diff: true
           
-      - name: Upload
+      - name: Upload as artifact
         uses: actions/upload-artifact@master
         with:
           name: diff.pdf
