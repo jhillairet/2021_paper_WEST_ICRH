@@ -10,3 +10,12 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: master.tex
+      - uses: tawalaya/latex-diff-action@v1
+        with:
+          root_file: master.tex
+          compile_diff: true
+      - name: Upload
+        uses: actions/upload-artifact@master
+        with:
+          name: diff.pdf
+        if: always()          
