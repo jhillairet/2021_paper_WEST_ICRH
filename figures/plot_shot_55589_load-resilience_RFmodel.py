@@ -59,15 +59,21 @@ f_Q4 =  freqs[2]*1e6 # Q4 frequency
 freq = rf.Frequency(f_Q4, f_Q4, npoints=1, unit='Hz')
 ant = WestIcrhAntenna(frequency=freq)
 
-Z_load = 0.65 + 30j
-Rc_match = 0.8
+Z_load = 0.65 + 25j
+Rc_match = 0.8  # Coupling resistance (averaged) during non-perturbated periods
 Z_match = 30 - 6*1j # matching impedance 
 
 ant.load(Rc_match)
 C_match = ant.match_both_sides(f_match=f_Q4, z_match=[Z_match, Z_match])
 
 #%%
-Rcs = np.linspace(0.4, 1.8, 101) + 0.2j
+# Load the antenna with a simplist model, in which each strap is
+# considered as impedance. 
+# The imaginary part of the coupling resistance reproduces
+# the experimental effect of the cross-coupling between antenna sides. 
+# This effect is automatically included when one use more realistic plasma/antenna
+# coupling model. 
+Rcs = np.linspace(0.4, 1.8, 101) + 0.25j
 vswrs = []
 for Rc in tqdm(Rcs):
     ant.load(Rc)
@@ -83,13 +89,14 @@ fig, ax = plt.subplots()
 ax.plot(_Rc_Q4, _VSWR_Q4_l, '.', alpha=0.6, label='Q4 - Experimental', color='C2')
 # ax.plot(_Rc_Q4, _VSWR_Q4_r, '.', alpha=0.6, label='Q4 right')
 ax.plot(Rcs, vswrs[:,0], lw=2, color='k',label=f'Q4 - RF Model')
-ax.plot(Rcs, Rcs/Z_load.real, ls='--', color='gray')
-ax.text(1.3, 2.1, 'Non Resilient', color='gray', rotation=45)
+ax.plot(Rcs, Rcs.real/Rc_match, ls='--', color='gray')
+ax.plot(Rcs, Rc_match/Rcs.real, ls='--', color='gray')
+ax.text(1.2, 1.6, 'Non Resilient Case', color='gray', rotation=42)
 
 ax.axhline(2, ls='--', color='darkred')
 ax.text(0.8, 2.02, 'SWR Limit for 3MW per antenna', color='darkred')
 
-ax.set_ylim(1, 2.5)
+ax.set_ylim(1, 2.3)
 ax.set_xlim(0.35, 2.01)
 ax.grid(True, alpha=0.6)
 ax.set_xlabel('Rc [$\Omega$]', fontsize=14)
